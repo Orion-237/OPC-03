@@ -7,7 +7,10 @@ class Room (val num: Int, val type: String, var price: Double){
 
     fun bookRoom(duration: Int){
         if (isBooked) throw Exception("Already booked")
-        else reservationDuration = duration
+        else {
+            isBooked = true
+            reservationDuration = duration
+        }
     }
 
     fun cancelBooking(){
@@ -16,7 +19,7 @@ class Room (val num: Int, val type: String, var price: Double){
     }
 
     override fun toString(): String {
-        return "\t\tNumber: $num\tType: $type\tStatus: ${if (!isBooked)"Available" else "Booked for ${reservationDuration} nights"}"
+        return "\t\tNumber: $num\tType: $type\tStatus: ${if (!isBooked)"Available" else "Booked for ${reservationDuration} nights\t Price: ${reserationPrice()}"}"
     }
 }
 
@@ -67,7 +70,7 @@ fun makeReservation(){
         availableRooms.forEach{ println(it.toString())}
         print("Enter room number: ")
         var num = readln().toInt()
-        println("For how many nights?: ")
+        print("For how many nights?: ")
         var duration = readln().toInt()
         try {
             soleilRoyal.bookRoom(num, duration)
@@ -135,6 +138,10 @@ fun main(){
     }
     for (i in 20 .. 29){
         soleilRoyal.addRoom(i, "Suite", 80000.0)
+    }
+    for (i in 7 .. 14) {
+        soleilRoyal.rooms[i]?.isBooked = true
+        soleilRoyal.rooms[i]?.reservationDuration = 2
     }
 
     var menuOptions = listOf(
